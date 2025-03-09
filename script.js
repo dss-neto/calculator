@@ -75,7 +75,7 @@ function workWithNumbers(targetId, targetElement) {
   }
 }
 function workWithOperators(targetId) {
-  if (targetId !== "backspace") {
+  if (targetId !== "backspace" && (targetId !== "=" || operator)) {
     resultFromEqual = 0;
     currentOperating = secondNumber;
     showNext = true;
