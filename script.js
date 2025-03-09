@@ -20,8 +20,8 @@ function workWithNumbers(e) {
   target = e.target;
   if (target.id !== "." || !currentOperating.includes(".")) {
     if (target.tagName === "BUTTON") {
-      if (!operator && firstNumber[0] === 0) {
-        firstNumber.pop();
+      if (currentOperating[0] === 0 && currentOperating.length === 1) {
+        currentOperating.pop();
         /* Turn the initial 0 into nothing because the rest of the code 
            will display the number*/
         display.textContent = "";
@@ -43,11 +43,15 @@ function workWithNumbers(e) {
 function workWithOperators(e) {
   target = e.target;
   if (target.tagName === "BUTTON") {
-    resultFromEqual = 0;
-    currentOperating = secondNumber;
-    showNext = true;
+    if (target.id !== "backspace") {
+      resultFromEqual = 0;
+      currentOperating = secondNumber;
+      showNext = true;
+    }
     if (target.id === "AC") {
       resetEverything();
+    } else if (target.id === "backspace") {
+      backspaceFunctionality();
     } else if (target.id === "=") {
       if (operator) {
         resultFromEqual = firstNumber;
@@ -92,6 +96,17 @@ function workWithOperators(e) {
       secondNumber.splice(0, secondNumber.length);
     }
   }
+}
+
+function backspaceFunctionality() {
+  if (currentOperating.length !== 1) {
+    currentOperating.pop();
+  } else if (resultFromEqual) {
+    resetEverything();
+  } else {
+    currentOperating.splice(0, currentOperating.length, 0);
+  }
+  display.textContent = currentOperating.join("");
 }
 
 function resetEverything() {
