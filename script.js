@@ -18,10 +18,7 @@ operatorsDiv.addEventListener("click", (e) => workWithOperators(e));
 
 function workWithNumbers(e) {
   target = e.target;
-  if (
-    target.id !== "." ||
-    (display.textContent && !currentOperating.includes("."))
-  ) {
+  if (target.id !== "." || !currentOperating.includes(".")) {
     if (target.tagName === "BUTTON") {
       if (!operator && firstNumber[0] === 0) {
         firstNumber.pop();
@@ -49,11 +46,12 @@ function workWithOperators(e) {
     resultFromEqual = 0;
     currentOperating = secondNumber;
     showNext = true;
-    // If you press equal
-    if (target.id === "=") {
-      resultFromEqual = firstNumber;
-      // This will make numbers negative if pressing equal
+    if (target.id === "AC") {
+      resetEverything();
+    } else if (target.id === "=") {
       if (operator) {
+        resultFromEqual = firstNumber;
+        // This will make numbers negative if pressing equal
         firstNumber.splice(
           0,
           firstNumber.length,
@@ -63,10 +61,13 @@ function workWithOperators(e) {
             parseFloat(secondNumber.join(""))
           )
         );
+        secondNumber = [];
+        display.textContent = firstNumber;
+        operator = null;
+      } else {
+        currentOperating = firstNumber;
+        showNext = false;
       }
-      secondNumber = [];
-      display.textContent = firstNumber;
-      operator = null;
       // If there is already an operator and someone presses it again
     } else if (operator) {
       if (secondNumber.length === 0) {
@@ -86,8 +87,6 @@ function workWithOperators(e) {
         operator = target.id;
       }
       // Reset all conditions if you press All Clear
-    } else if (target.id === "AC") {
-      resetEverything();
     } else {
       operator = target.id;
       secondNumber.splice(0, secondNumber.length);
@@ -96,12 +95,15 @@ function workWithOperators(e) {
 }
 
 function resetEverything() {
-  firstNumber = [];
+  resultFromEqual = 0;
+  firstNumber = [0];
   secondNumber = [];
-  operator = null;
-  showNext = false;
-  display.textContent = 0;
   currentOperating = firstNumber;
+  /* showNext: if true, the number will show after triggering resultFromEqual with
+     an operator, instead of appending to the displayed number */
+  showNext = false;
+  operator = null;
+  display.textContent = firstNumber;
 }
 
 function operate(operator, num1, num2) {
@@ -116,9 +118,6 @@ function operate(operator, num1, num2) {
 }
 
 function add(num1, num2) {
-  if ((num1 === 0.1 && num2 === 0.2) || (num1 === 0.2 && num2 === 0.1)) {
-    return 0.3;
-  }
   // return arr.reduce((sum, number) => sum + number, 0);
   return Number((num1 + num2).toFixed(7));
 }
