@@ -2,35 +2,58 @@ const display = document.getElementById("display");
 const numberDiv = document.getElementById("numbers");
 const operatorsDiv = document.getElementById("operators");
 
-let result = 0;
-let firstNumber = [];
+let resultFromEqual = 0;
+let firstNumber = [0];
 let secondNumber = [];
 let currentOperating = firstNumber;
-// if true, the number will show after triggering result with
-// operator
+/* showNext: if true, the number will show after triggering resultFromEqual with
+   an operator, instead of appending to the displayed number */
 let showNext = false;
 let operator;
+display.textContent = firstNumber;
 
 numberDiv.addEventListener("click", (e) => workWithNumbers(e));
 
 operatorsDiv.addEventListener("click", (e) => workWithOperators(e));
 
+function workWithNumbers(e) {
+  target = e.target;
+  if (
+    target.id !== "." ||
+    (display.textContent && !currentOperating.includes("."))
+  ) {
+    if (target.tagName === "BUTTON") {
+      if (!operator && firstNumber[0] === 0) {
+        firstNumber.pop();
+        /* Turn the initial 0 into nothing because the rest of the code 
+           will display the number*/
+        display.textContent = "";
+      }
+      // If there is a resultFromEqual
+      if (resultFromEqual) {
+        resetEverything();
+      }
+      currentOperating.push(target.textContent);
+      if (!showNext) {
+        display.textContent += target.textContent;
+      } else {
+        display.textContent = secondNumber;
+        showNext = false;
+      }
+    }
+  }
+}
 function workWithOperators(e) {
   target = e.target;
   if (target.tagName === "BUTTON") {
+    resultFromEqual = 0;
+    currentOperating = secondNumber;
+    showNext = true;
+    // If you press equal
     if (target.id === "=") {
-      result = firstNumber;
-      if (operator === "-" && firstNumber.length === 0) {
-        firstNumber.splice(
-          0,
-          0,
-          operate(operator, 0, parseFloat(secondNumber.join("")))
-        );
-        secondNumber.splice(0, secondNumber.length);
-        display.textContent = firstNumber;
-        currentOperating = secondNumber;
-        operator = null;
-      } else if (operator) {
+      resultFromEqual = firstNumber;
+      // This will make numbers negative if pressing equal
+      if (operator) {
         firstNumber.splice(
           0,
           firstNumber.length,
@@ -40,24 +63,12 @@ function workWithOperators(e) {
             parseFloat(secondNumber.join(""))
           )
         );
-        if (firstNumber[0] === "no way") {
-          secondNumber = [];
-          showNext = true;
-        }
-        display.textContent = firstNumber;
-        currentOperating = secondNumber;
-        operator = null;
       }
-    } else if (target.id === "AC") {
-      firstNumber = [];
       secondNumber = [];
+      display.textContent = firstNumber;
       operator = null;
-      showNext = false;
-      result = 0;
-      display.textContent = "";
-      currentOperating = firstNumber;
+      // If there is already an operator and someone presses it again
     } else if (operator) {
-      result = 0;
       if (secondNumber.length === 0) {
         operator = target.id;
       } else {
@@ -72,53 +83,25 @@ function workWithOperators(e) {
         );
         secondNumber.splice(0, secondNumber.length);
         display.textContent = firstNumber;
-        currentOperating = secondNumber;
         operator = target.id;
-        showNext = true;
       }
-    } else if (target.id === "-" && !firstNumber) {
-      result = 0;
-      operator = target.id;
+      // Reset all conditions if you press All Clear
+    } else if (target.id === "AC") {
+      resetEverything();
     } else {
-      result = 0;
-      showNext = true;
       operator = target.id;
       secondNumber.splice(0, secondNumber.length);
-      currentOperating = secondNumber;
     }
   }
 }
 
-function workWithNumbers(e) {
-  target = e.target;
-  if (
-    target.id !== "." ||
-    (display.textContent && !currentOperating.includes("."))
-  ) {
-    if (target.tagName === "BUTTON") {
-      if (result) {
-        firstNumber = [];
-        secondNumber = [];
-        operator = null;
-        showNext = false;
-        result = 0;
-        display.textContent = "";
-        currentOperating = firstNumber;
-      }
-      if (display.textContent === operator) {
-        display.textContent = "";
-        showNext = false;
-      }
-      if (!showNext) {
-        display.textContent += target.textContent;
-        currentOperating.push(target.textContent);
-      } else {
-        currentOperating.push(target.textContent);
-        display.textContent = secondNumber;
-        showNext = false;
-      }
-    }
-  }
+function resetEverything() {
+  firstNumber = [];
+  secondNumber = [];
+  operator = null;
+  showNext = false;
+  display.textContent = 0;
+  currentOperating = firstNumber;
 }
 
 function operate(operator, num1, num2) {
