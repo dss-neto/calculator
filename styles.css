@@ -1,3 +1,7 @@
+/* https://www.realtimecolors.com/?colors=e9f0ee-060c0a-a5a0cf-65425b-756cc5&fonts=Armata-Armata */
+
+/* https://www.realtimecolors.com/?colors=e8e8ef-0f0e18-a5a0cf-65425b-756cc5&fonts=Armata-Armata */
+
 /* hacks */
 
 html {
@@ -16,5 +20,97 @@ html {
 }
 
 body {
-  background-color: gray;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 97vw;
+  height: 98vh;
+  background-color: #0f0e18;
+}
+
+button {
+  font-family: "Fira code", "Times new roman", sans-serif;
+  background-color: #756cc5;
+  font-weight: bolder;
+  font-size: 100%;
+  border: 3px solid #0f0e18;
+  border-radius: 6px;
+}
+button:hover {
+  filter: brightness(90%);
+}
+
+.dim {
+  filter: brightness(90%);
+}
+
+#calculator {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  height: 443px;
+  aspect-ratio: 1/1.5;
+  border-radius: 12px;
+  background-color: #a5a0cf;
+  border: 4px solid #38326f;
+}
+
+#display {
+  display: flex;
+  justify-content: flex-end;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+  word-break: break-word;
+  align-items: center;
+  height: calc(100% / 3);
+  padding: 1%;
+  margin: 5% 5% 0 5%;
+  border: 4px solid #0f0e18;
+  border-radius: 12px;
+  background-color: #38326f;
+  font-weight: bolder;
+  color: white;
+  font-family: "Fira code";
+  font-size: 256%;
+}
+
+#buttonsTab {
+  display: flex;
+  margin: 5%;
+  height: 100%;
+  border-radius: 12px;
+  border: 4px solid #0f0e18;
+  background-color: #38326f;
+  gap: 6px;
+}
+
+#numbers {
+  display: flex;
+  flex-wrap: wrap;
+  width: calc(100% * 3 / 5);
+  gap: 2px;
+  margin: 5% 0 5% 5%;
+}
+#numbers button {
+  flex-grow: 1;
+  width: 32%;
+}
+#operators {
+  display: flex;
+  flex-wrap: wrap;
+  width: calc(100% * 2 / 5);
+  margin: 5% 5% 5% 0;
+  gap: 2px;
+}
+
+#operators button {
+  flex-grow: 1;
+  width: calc(67% / 2);
+}
+
+.zero {
+  flex: 0 0 32%;
+}
+.dot {
+  flex-basis: calc(32% * 2);
 }

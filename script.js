@@ -16,12 +16,15 @@ let operator;
 display.textContent = firstNumber;
 const keyboardObj = {
   Backspace: function () {
+    document.getElementById("Backspace").classList.add("dim");
     backspaceFunctionality();
   },
   Enter: function () {
+    document.getElementById("=").classList.add("dim");
     workWithOperators("=");
   },
   Escape: function () {
+    document.getElementById("Escape").classList.add("dim");
     resetEverything();
   },
 };
@@ -33,12 +36,22 @@ document.addEventListener("keydown", (logKey) => {
     logKey.key !== "Escape"
   ) {
     if (NUMBERS_LIST.includes(logKey.key)) {
+      document.getElementById(logKey.key).classList.add("dim");
       workWithNumbers(logKey.key, "BUTTON");
     } else if (OPERATORS_LIST.includes(logKey.key)) {
+      document.getElementById(logKey.key).classList.add("dim");
       workWithOperators(logKey.key);
     }
   } else {
     keyboardObj[logKey.key]();
+  }
+});
+
+document.addEventListener("keyup", (logKey) => {
+  if (logKey.key !== "Enter") {
+    document.getElementById(logKey.key).classList.remove("dim");
+  } else if (logKey.key === "Enter") {
+    document.getElementById("=").classList.remove("dim");
   }
 });
 
@@ -49,40 +62,42 @@ numberDiv.addEventListener("click", (e) =>
 operatorsDiv.addEventListener("click", (e) => workWithOperators(e.target.id));
 
 function workWithNumbers(targetId, targetElement) {
-  if (targetId !== "." || !currentOperating.includes(".")) {
-    if (targetElement === "BUTTON") {
-      if (currentOperating[0] === 0 && currentOperating.length === 1) {
-        currentOperating.pop();
-        /* Turn the initial 0 into nothing because the rest of the code 
+  if (currentOperating.length < 10) {
+    if (targetId !== "." || !currentOperating.includes(".")) {
+      if (targetElement === "BUTTON") {
+        if (currentOperating[0] === 0 && currentOperating.length === 1) {
+          currentOperating.pop();
+          /* Turn the initial 0 into nothing because the rest of the code 
            will display the number*/
-        display.textContent = "";
-      }
-      if (resultFromEqual) {
-        resetEverything();
-      }
-      if (currentOperating.length === 1 && currentOperating[0] === 0) {
-        currentOperating.pop();
-        display.textContent = "";
-      }
-      currentOperating.push(targetId);
-      if (!showNext) {
-        display.textContent += targetId;
-      } else {
-        display.textContent = secondNumber;
-        showNext = false;
+          display.textContent = "";
+        }
+        if (resultFromEqual) {
+          resetEverything();
+        }
+        if (currentOperating.length === 1 && currentOperating[0] === 0) {
+          currentOperating.pop();
+          display.textContent = "";
+        }
+        currentOperating.push(targetId);
+        if (!showNext) {
+          display.textContent += targetId;
+        } else {
+          display.textContent = secondNumber;
+          showNext = false;
+        }
       }
     }
   }
 }
 function workWithOperators(targetId) {
-  if (targetId !== "backspace" && (targetId !== "=" || operator)) {
+  if (targetId !== "Backspace" && (targetId !== "=" || operator)) {
     resultFromEqual = 0;
     currentOperating = secondNumber;
     showNext = true;
   }
-  if (targetId === "AC") {
+  if (targetId === "Escape") {
     resetEverything();
-  } else if (targetId === "backspace") {
+  } else if (targetId === "Backspace") {
     backspaceFunctionality();
   } else if (targetId === "=") {
     equalsFunctionality();
@@ -106,7 +121,9 @@ function operatorFunctionality(targetId) {
         )
       );
       secondNumber.splice(0, secondNumber.length);
-      display.textContent = firstNumber;
+      if (firstNumber > 9999999999) {
+        display.textContent = Number.parseFloat(firstNumber).toExponential(2);
+      } else display.textContent = firstNumber;
       operator = targetId;
     }
   } else {
@@ -129,7 +146,9 @@ function equalsFunctionality() {
         )
       );
       secondNumber = [];
-      display.textContent = firstNumber;
+      if (firstNumber > 9999999999) {
+        display.textContent = Number.parseFloat(firstNumber).toExponential(2);
+      } else display.textContent = firstNumber;
       operator = null;
     } else {
       currentOperating = firstNumber;
@@ -167,19 +186,19 @@ function resetEverything() {
 function operate(operator, num1, num2) {
   let operationObj = {
     "+": function () {
-      return Number((num1 + num2).toFixed(7));
+      return Number((num1 + num2).toFixed(4));
     },
     "-": function () {
-      return Number((num1 - num2).toFixed(7));
+      return Number((num1 - num2).toFixed(4));
     },
     "/": function () {
       if (num1 === 0 || num2 === 0) {
         return "no way";
       }
-      return Number((num1 / num2).toFixed(7));
+      return Number((num1 / num2).toFixed(4));
     },
     "*": function () {
-      return Number((num1 * num2).toFixed(7));
+      return Number((num1 * num2).toFixed(4));
     },
   };
 
