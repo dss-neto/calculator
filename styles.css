@@ -53,7 +53,7 @@ button:hover {
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
-  height: 443px;
+  height: 600px;
   aspect-ratio: 1/1.5;
   border-radius: 12px;
   background-color: #a5a0cf;
@@ -75,7 +75,7 @@ button:hover {
   font-weight: bolder;
   color: white;
   font-family: "Fira code";
-  font-size: 256%;
+  font-size: 350%;
 }
 
 #buttonsTab {
@@ -104,6 +104,10 @@ button:hover {
   width: calc(100% * 2 / 5);
   margin: 5% 5% 5% 0;
   gap: 2px;
+}
+
+button:not(#Escape, #Backspace) {
+  font-size: 150%;
 }
 
 #operators button {
