@@ -47,19 +47,21 @@ document.addEventListener("keydown", (logKey) => {
   }
 });
 
-document.addEventListener("keyup", (logKey) => {
-  if (logKey.key !== "Enter") {
-    document.getElementById(logKey.key).classList.remove("dim");
-  } else if (logKey.key === "Enter") {
-    document.getElementById("=").classList.remove("dim");
-  }
-});
+document.addEventListener("keyup", (logKey) => unDimButton(logKey.key));
 
 numberDiv.addEventListener("click", (e) =>
   workWithNumbers(e.target.id, e.target.tagName)
 );
 
 operatorsDiv.addEventListener("click", (e) => workWithOperators(e.target.id));
+
+function unDimButton(key) {
+  if (key !== "Enter") {
+    document.getElementById(key).classList.remove("dim");
+  } else if (key === "Enter") {
+    document.getElementById("=").classList.remove("dim");
+  }
+}
 
 function workWithNumbers(targetId, targetElement) {
   if (currentOperating.length < 10) {
