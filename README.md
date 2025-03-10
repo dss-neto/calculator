@@ -2,9 +2,7 @@
 
 Last project of [The Odin Project's](www.theodinproject.com) foundations curriculum.
 
-## Description
-
-Shortcuts:
+## Shortcuts
 
 - Backspace: Delete
 - Escape: All Clear

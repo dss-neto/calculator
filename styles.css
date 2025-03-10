@@ -114,8 +114,8 @@ button:not(#Escape, #Backspace) {
 }
 
 .zero {
-  flex: 0 0 30%;
+  flex: 1;
 }
 .dot {
-  flex-basis: calc(32% * 2);
+  flex: 2;
 }
