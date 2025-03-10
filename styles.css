@@ -52,6 +52,7 @@ button:hover {
   flex-direction: column;
   flex-shrink: 0;
   height: 60.5vh;
+  min-height: 600px;
   aspect-ratio: 1/1.5;
   border-radius: 12px;
   background-color: #a5a0cf;

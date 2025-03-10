@@ -64,28 +64,30 @@ function unDimButton(key) {
 }
 
 function workWithNumbers(targetId, targetElement) {
-  if (currentOperating.length < 10) {
-    if (targetId !== "." || !currentOperating.includes(".")) {
-      if (targetElement === "BUTTON") {
-        if (currentOperating[0] === 0 && currentOperating.length === 1) {
-          currentOperating.pop();
-          /* Turn the initial 0 into nothing because the rest of the code 
+  if (numberDiv.length > 1 || targetId !== "0") {
+    if (currentOperating.length < 10) {
+      if (targetId !== "." || !currentOperating.includes(".")) {
+        if (targetElement === "BUTTON") {
+          if (currentOperating[0] === 0 && currentOperating.length === 1) {
+            currentOperating.pop();
+            /* Turn the initial 0 into nothing because the rest of the code 
            will display the number*/
-          display.textContent = "";
-        }
-        if (resultFromEqual) {
-          resetEverything();
-        }
-        if (currentOperating.length === 1 && currentOperating[0] === 0) {
-          currentOperating.pop();
-          display.textContent = "";
-        }
-        currentOperating.push(targetId);
-        if (!showNext) {
-          display.textContent += targetId;
-        } else {
-          display.textContent = secondNumber;
-          showNext = false;
+            display.textContent = "";
+          }
+          if (resultFromEqual) {
+            resetEverything();
+          }
+          if (currentOperating.length === 1 && currentOperating[0] === 0) {
+            currentOperating.pop();
+            display.textContent = "";
+          }
+          currentOperating.push(targetId);
+          if (!showNext) {
+            display.textContent += targetId;
+          } else {
+            display.textContent = secondNumber;
+            showNext = false;
+          }
         }
       }
     }
