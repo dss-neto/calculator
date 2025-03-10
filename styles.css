@@ -19,6 +19,11 @@ html {
   display: table;
 }
 
+#display,
+#buttonsTab {
+  background-color: #38326f;
+}
+
 body {
   display: flex;
   align-items: center;
@@ -67,7 +72,6 @@ button:hover {
   margin: 5% 5% 0 5%;
   border: 4px solid #0f0e18;
   border-radius: 12px;
-  background-color: #38326f;
   font-weight: bolder;
   color: white;
   font-family: "Fira code";
@@ -80,7 +84,6 @@ button:hover {
   height: 100%;
   border-radius: 12px;
   border: 4px solid #0f0e18;
-  background-color: #38326f;
   gap: 6px;
 }
 
@@ -109,7 +112,7 @@ button:hover {
 }
 
 .zero {
-  flex: 0 0 32%;
+  flex: 0 0 30%;
 }
 .dot {
   flex-basis: calc(32% * 2);
