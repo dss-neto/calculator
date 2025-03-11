@@ -4,16 +4,6 @@ const operatorsDiv = document.getElementById("operators");
 
 const NUMBERS_LIST = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "."];
 const OPERATORS_LIST = ["=", "+", "-", "*", "/"];
-
-let resultFromEqual = 0;
-let firstNumber = ["0"];
-let secondNumber = [];
-let currentOperating = firstNumber;
-/* showNext: if true, the number will show after triggering
-  resultFromEqual with an operator, instead of appending to the displayed number */
-let showNext = false;
-let operator;
-display.textContent = firstNumber;
 const keyboardObj = {
   Backspace: function () {
     document.getElementById("Backspace").classList.add("dim");
@@ -28,6 +18,16 @@ const keyboardObj = {
     resetEverything();
   },
 };
+
+let resultFromEqual = 0;
+let firstNumber = ["0"];
+let secondNumber = [];
+let currentOperating = firstNumber;
+/* showNext: if true, the number will show after triggering
+  resultFromEqual with an operator, instead of appending to the displayed number */
+let showNext = false;
+let operator;
+display.textContent = firstNumber;
 
 document.addEventListener("keydown", (logKey) => {
   if (
@@ -64,37 +64,40 @@ function unDimButton(key) {
 }
 
 function workWithNumbers(targetId, targetElement) {
-  if (currentOperating.length < 10) {
-    if (targetId !== "." || !currentOperating.includes(".")) {
-      if (targetElement === "BUTTON") {
-        if (currentOperating[0] === "0" && currentOperating.length === 1) {
-          currentOperating.pop();
-          /* Turn the initial 0 into nothing because the rest of the code 
+  const isDotButton = targetId === ".";
+  const hasDecimalPoint = currentOperating.includes(".");
+  const isButtonElement = targetElement === "BUTTON";
+  const isWithinDigitLimit = currentOperating.length < 10;
+  if (
+    isWithinDigitLimit &&
+    (!isDotButton || (!hasDecimalPoint && isButtonElement))
+  ) {
+    if (currentOperating[0] === "0" && currentOperating.length === 1) {
+      currentOperating.pop();
+      /* Turn the initial 0 into nothing because the rest of the code 
            will display the number*/
-          display.textContent = "";
-        }
-        if (resultFromEqual) {
-          resetEverything();
-        }
-        if (currentOperating.length === 1 && currentOperating[0] === 0) {
-          currentOperating.pop();
-          display.textContent = "";
-        }
-        if (
-          !(
-            targetId === "0" &&
-            currentOperating.length === 1 &&
-            currentOperating[0] === "0"
-          )
-        ) {
-          currentOperating.push(targetId);
-          if (!showNext) {
-            display.textContent += targetId;
-          } else {
-            display.textContent = secondNumber;
-            showNext = false;
-          }
-        }
+      display.textContent = "";
+    }
+    if (resultFromEqual) {
+      resetEverything();
+    }
+    if (currentOperating.length === 1 && currentOperating[0] === 0) {
+      currentOperating.pop();
+      display.textContent = "";
+    }
+    if (
+      !(
+        targetId === "0" &&
+        currentOperating.length === 1 &&
+        currentOperating[0] === "0"
+      )
+    ) {
+      currentOperating.push(targetId);
+      if (!showNext) {
+        display.textContent += targetId;
+      } else {
+        display.textContent = secondNumber;
+        showNext = false;
       }
     }
   }
@@ -117,8 +120,11 @@ function workWithOperators(targetId) {
 }
 
 function operatorFunctionality(targetId) {
+  const isOperatingNumberEmpty = secondNumber.length === 0;
+  const isResultBeyondLimit =
+    firstNumber > 9999999999 || firstNumber < -999999999;
   if (operator) {
-    if (secondNumber.length === 0) {
+    if (isOperatingNumberEmpty) {
       operator = targetId;
     } else {
       firstNumber.splice(
@@ -131,7 +137,7 @@ function operatorFunctionality(targetId) {
         )
       );
       secondNumber.splice(0, secondNumber.length);
-      if (firstNumber > 9999999999) {
+      if (isResultBeyondLimit) {
         display.textContent = Number.parseFloat(firstNumber).toExponential(2);
       } else display.textContent = firstNumber;
       operator = targetId;
@@ -143,7 +149,10 @@ function operatorFunctionality(targetId) {
 }
 
 function equalsFunctionality() {
-  if (secondNumber.length > 0) {
+  const isOperatingNumberEmpty = secondNumber.length === 0;
+  const isResultBeyondLimit =
+    firstNumber > 9999999999 || firstNumber < -999999999;
+  if (!isOperatingNumberEmpty) {
     if (operator) {
       resultFromEqual = firstNumber;
       firstNumber.splice(
@@ -156,7 +165,7 @@ function equalsFunctionality() {
         )
       );
       secondNumber = [];
-      if (firstNumber > 9999999999 || firstNumber < -999999999) {
+      if (isResultBeyondLimit) {
         display.textContent = Number.parseFloat(firstNumber).toExponential(2);
       } else display.textContent = firstNumber;
       operator = null;
@@ -168,6 +177,7 @@ function equalsFunctionality() {
 }
 
 function backspaceFunctionality() {
+  const isOperatingNumberEmpty = currentOperating.length === 0;
   if (currentOperating.length !== 1) {
     currentOperating.pop();
   } else if (resultFromEqual) {
@@ -176,7 +186,7 @@ function backspaceFunctionality() {
     currentOperating.splice(0, currentOperating.length, 0);
   }
   display.textContent = currentOperating.join("");
-  if (currentOperating.length === 0) {
+  if (isOperatingNumberEmpty) {
     display.textContent = 0;
   }
 }
