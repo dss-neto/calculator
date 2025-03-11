@@ -192,7 +192,7 @@ function backspaceFunctionality() {
 
 function resetEverything() {
   resultFromEqual = 0;
-  firstNumber = [0];
+  firstNumber = ["0"];
   secondNumber = [];
   currentOperating = firstNumber;
   /* showNext: if true, the number will show after triggering resultFromEqual with
