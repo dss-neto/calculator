@@ -30,15 +30,17 @@ let operator;
 display.textContent = firstNumber;
 
 document.addEventListener("keydown", (logKey) => {
+  const isNumber = () => NUMBERS_LIST.includes(logKey.key);
+  const isOperator = () => OPERATORS_LIST.includes(logKey.key);
   if (
     logKey.key !== "Enter" &&
     logKey.key !== "Backspace" &&
     logKey.key !== "Escape"
   ) {
-    if (NUMBERS_LIST.includes(logKey.key)) {
+    if (isNumber()) {
       document.getElementById(logKey.key).classList.add("dim");
       workWithNumbers(logKey.key, "BUTTON");
-    } else if (OPERATORS_LIST.includes(logKey.key)) {
+    } else if (isOperator()) {
       document.getElementById(logKey.key).classList.add("dim");
       workWithOperators(logKey.key);
     }
@@ -202,21 +204,15 @@ function resetEverything() {
 
 function operate(operator, num1, num2) {
   let operationObj = {
-    "+": function () {
-      return Number((num1 + num2).toFixed(4));
-    },
-    "-": function () {
-      return Number((num1 - num2).toFixed(4));
-    },
+    "+": () => Number((num1 + num2).toFixed(4)),
+    "-": () => Number((num1 - num2).toFixed(4)),
     "/": function () {
       if (num1 === 0 || num2 === 0) {
         return "no way";
       }
       return Number((num1 / num2).toFixed(4));
     },
-    "*": function () {
-      return Number((num1 * num2).toFixed(4));
-    },
+    "*": () => Number((num1 * num2).toFixed(4)),
   };
 
   return operationObj[operator]();
