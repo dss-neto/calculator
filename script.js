@@ -76,17 +76,13 @@ function workWithNumbers(targetId, targetElement) {
     isWithinDigitLimit() &&
     (!isDotButton() || (!hasDecimalPoint() && isButtonElement()))
   ) {
-    if (isZeroTheFirstNumber() && hasOneDigit()) {
-      currentOperating.pop();
-      /* Turn the initial 0 into nothing because the rest of the code 
-           will display the number*/
-      display.textContent = "";
-    }
     if (resultFromEqual) {
       resetEverything();
     }
     if (hasOneDigit() && isZeroTheFirstNumber()) {
       currentOperating.pop();
+      /* Turn the initial 0 into nothing because the rest of the code 
+         will display the number*/
       display.textContent = "";
     }
     if (!(isZeroButton() && hasOneDigit() && isZeroTheFirstNumber())) {
