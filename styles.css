@@ -66,7 +66,6 @@ button:hover {
   white-space: pre-wrap;
   word-break: break-word;
   align-items: center;
-  height: calc(100% / 3);
   padding: 1%;
   margin: 5% 5% 0 5%;
   border: 4px solid #0f0e18;
@@ -115,7 +114,7 @@ button:not(#Escape, #Backspace) {
 }
 
 .zero {
-  flex: 0 0 30%;
+  flex: 0 0 31%;
 }
 .dot {
   flex-basis: calc(32% * 2);

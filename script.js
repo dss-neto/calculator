@@ -64,15 +64,19 @@ function unDimButton(key) {
 }
 
 function workWithNumbers(targetId, targetElement) {
-  const isDotButton = targetId === ".";
-  const hasDecimalPoint = currentOperating.includes(".");
-  const isButtonElement = targetElement === "BUTTON";
-  const isWithinDigitLimit = currentOperating.length < 10;
+  const isDotButton = () => targetId === ".";
+  const hasDecimalPoint = () => currentOperating.includes(".");
+  const isButtonElement = () => targetElement === "BUTTON";
+  const isWithinDigitLimit = () => currentOperating.length < 10;
+  const isZeroTheFirstNumber = () => currentOperating[0] === "0";
+  const hasOneDigit = () => currentOperating.length === 1;
+  const isZeroButton = () => targetId === "0";
+
   if (
-    isWithinDigitLimit &&
-    (!isDotButton || (!hasDecimalPoint && isButtonElement))
+    isWithinDigitLimit() &&
+    (!isDotButton() || (!hasDecimalPoint() && isButtonElement()))
   ) {
-    if (currentOperating[0] === "0" && currentOperating.length === 1) {
+    if (isZeroTheFirstNumber() && hasOneDigit()) {
       currentOperating.pop();
       /* Turn the initial 0 into nothing because the rest of the code 
            will display the number*/
@@ -81,17 +85,11 @@ function workWithNumbers(targetId, targetElement) {
     if (resultFromEqual) {
       resetEverything();
     }
-    if (currentOperating.length === 1 && currentOperating[0] === 0) {
+    if (hasOneDigit() && isZeroTheFirstNumber()) {
       currentOperating.pop();
       display.textContent = "";
     }
-    if (
-      !(
-        targetId === "0" &&
-        currentOperating.length === 1 &&
-        currentOperating[0] === "0"
-      )
-    ) {
+    if (!(isZeroButton() && hasOneDigit() && isZeroTheFirstNumber())) {
       currentOperating.push(targetId);
       if (!showNext) {
         display.textContent += targetId;
@@ -120,11 +118,12 @@ function workWithOperators(targetId) {
 }
 
 function operatorFunctionality(targetId) {
-  const isOperatingNumberEmpty = secondNumber.length === 0;
-  const isResultBeyondLimit =
+  const isOperatingNumberEmpty = () => secondNumber.length === 0;
+  const isResultBeyondLimit = () =>
     firstNumber > 9999999999 || firstNumber < -999999999;
+
   if (operator) {
-    if (isOperatingNumberEmpty) {
+    if (isOperatingNumberEmpty()) {
       operator = targetId;
     } else {
       firstNumber.splice(
@@ -137,7 +136,7 @@ function operatorFunctionality(targetId) {
         )
       );
       secondNumber.splice(0, secondNumber.length);
-      if (isResultBeyondLimit) {
+      if (isResultBeyondLimit()) {
         display.textContent = Number.parseFloat(firstNumber).toExponential(2);
       } else display.textContent = firstNumber;
       operator = targetId;
@@ -149,10 +148,11 @@ function operatorFunctionality(targetId) {
 }
 
 function equalsFunctionality() {
-  const isOperatingNumberEmpty = secondNumber.length === 0;
-  const isResultBeyondLimit =
+  const isOperatingNumberEmpty = () => secondNumber.length === 0;
+  const isResultBeyondLimit = () =>
     firstNumber > 9999999999 || firstNumber < -999999999;
-  if (!isOperatingNumberEmpty) {
+
+  if (!isOperatingNumberEmpty()) {
     if (operator) {
       resultFromEqual = firstNumber;
       firstNumber.splice(
@@ -165,7 +165,7 @@ function equalsFunctionality() {
         )
       );
       secondNumber = [];
-      if (isResultBeyondLimit) {
+      if (isResultBeyondLimit()) {
         display.textContent = Number.parseFloat(firstNumber).toExponential(2);
       } else display.textContent = firstNumber;
       operator = null;
@@ -177,16 +177,17 @@ function equalsFunctionality() {
 }
 
 function backspaceFunctionality() {
-  const isOperatingNumberEmpty = currentOperating.length === 0;
-  if (currentOperating.length !== 1) {
+  const isOperatingNumberEmpty = () => currentOperating.length === 0;
+  const hasOneDigit = () => currentOperating.length === 1;
+  if (!hasOneDigit()) {
     currentOperating.pop();
   } else if (resultFromEqual) {
     resetEverything();
   } else {
-    currentOperating.splice(0, currentOperating.length, 0);
+    currentOperating.splice(0, currentOperating.length, "0");
   }
   display.textContent = currentOperating.join("");
-  if (isOperatingNumberEmpty) {
+  if (isOperatingNumberEmpty()) {
     display.textContent = 0;
   }
 }
