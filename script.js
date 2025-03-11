@@ -6,7 +6,7 @@ const NUMBERS_LIST = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "."];
 const OPERATORS_LIST = ["=", "+", "-", "*", "/"];
 
 let resultFromEqual = 0;
-let firstNumber = [0];
+let firstNumber = ["0"];
 let secondNumber = [];
 let currentOperating = firstNumber;
 /* showNext: if true, the number will show after triggering
@@ -64,23 +64,29 @@ function unDimButton(key) {
 }
 
 function workWithNumbers(targetId, targetElement) {
-  if (numberDiv.length > 1 || targetId !== "0") {
-    if (currentOperating.length < 10) {
-      if (targetId !== "." || !currentOperating.includes(".")) {
-        if (targetElement === "BUTTON") {
-          if (currentOperating[0] === 0 && currentOperating.length === 1) {
-            currentOperating.pop();
-            /* Turn the initial 0 into nothing because the rest of the code 
+  if (currentOperating.length < 10) {
+    if (targetId !== "." || !currentOperating.includes(".")) {
+      if (targetElement === "BUTTON") {
+        if (currentOperating[0] === "0" && currentOperating.length === 1) {
+          currentOperating.pop();
+          /* Turn the initial 0 into nothing because the rest of the code 
            will display the number*/
-            display.textContent = "";
-          }
-          if (resultFromEqual) {
-            resetEverything();
-          }
-          if (currentOperating.length === 1 && currentOperating[0] === 0) {
-            currentOperating.pop();
-            display.textContent = "";
-          }
+          display.textContent = "";
+        }
+        if (resultFromEqual) {
+          resetEverything();
+        }
+        if (currentOperating.length === 1 && currentOperating[0] === 0) {
+          currentOperating.pop();
+          display.textContent = "";
+        }
+        if (
+          !(
+            targetId === "0" &&
+            currentOperating.length === 1 &&
+            currentOperating[0] === "0"
+          )
+        ) {
           currentOperating.push(targetId);
           if (!showNext) {
             display.textContent += targetId;
