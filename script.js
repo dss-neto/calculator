@@ -156,7 +156,7 @@ function equalsFunctionality() {
         )
       );
       secondNumber = [];
-      if (firstNumber > 9999999999) {
+      if (firstNumber > 9999999999 || firstNumber < -999999999) {
         display.textContent = Number.parseFloat(firstNumber).toExponential(2);
       } else display.textContent = firstNumber;
       operator = null;
