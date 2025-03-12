@@ -117,8 +117,7 @@ function workWithOperators(targetId) {
 
 function operatorFunctionality(targetId) {
   const isOperatingNumberEmpty = () => secondNumber.length === 0;
-  const isResultBeyondLimit = () =>
-    firstNumber > 9999999999 || firstNumber < -999999999;
+  const isResultBeyondDigitLimit = () => firstNumber.join("").length > 10;
 
   if (operator) {
     if (isOperatingNumberEmpty()) {
@@ -134,7 +133,7 @@ function operatorFunctionality(targetId) {
         )
       );
       secondNumber.splice(0, secondNumber.length);
-      if (isResultBeyondLimit()) {
+      if (isResultBeyondDigitLimit()) {
         display.textContent = Number.parseFloat(firstNumber).toExponential(2);
       } else display.textContent = firstNumber;
       operator = targetId;
@@ -147,8 +146,7 @@ function operatorFunctionality(targetId) {
 
 function equalsFunctionality() {
   const isOperatingNumberEmpty = () => secondNumber.length === 0;
-  const isResultBeyondLimit = () =>
-    firstNumber > 9999999999 || firstNumber < -999999999;
+  const isResultBeyondDigitLimit = () => firstNumber.join("").length > 10;
 
   if (!isOperatingNumberEmpty()) {
     if (operator) {
@@ -163,7 +161,7 @@ function equalsFunctionality() {
         )
       );
       secondNumber = [];
-      if (isResultBeyondLimit()) {
+      if (isResultBeyondDigitLimit()) {
         display.textContent = Number.parseFloat(firstNumber).toExponential(2);
       } else display.textContent = firstNumber;
       operator = null;
@@ -204,15 +202,15 @@ function resetEverything() {
 
 function operate(operator, num1, num2) {
   let operationObj = {
-    "+": () => Number((num1 + num2).toFixed(4)),
-    "-": () => Number((num1 - num2).toFixed(4)),
+    "+": () => Number((num1 + num2).toFixed(2)),
+    "-": () => Number((num1 - num2).toFixed(2)),
     "/": function () {
       if (num1 === 0 || num2 === 0) {
         return "no way";
       }
-      return Number((num1 / num2).toFixed(4));
+      return Number((num1 / num2).toFixed(2));
     },
-    "*": () => Number((num1 * num2).toFixed(4)),
+    "*": () => Number((num1 * num2).toFixed(2)),
   };
 
   return operationObj[operator]();
