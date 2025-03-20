@@ -2,6 +2,14 @@
 
 /* hacks */
 
+:root {
+  --white-color: #edecf3;
+  --black-color: #0f0e18;
+  --primary-color: #a5a0cf;
+  --secondary-color: #38326f;
+  --accent-color: #756cc5;
+}
+
 html {
   box-sizing: border-box;
 }
@@ -19,7 +27,7 @@ html {
 
 #display,
 #buttonsTab {
-  background-color: #38326f;
+  background-color: var(--secondary-color);
 }
 
 body,
@@ -40,7 +48,7 @@ body {
   justify-content: center;
   width: 97vw;
   height: 98vh;
-  background-color: #0f0e18;
+  background-color: var(--black-color);
 }
 button,
 #display {
@@ -51,8 +59,8 @@ button,
 button {
   flex-grow: 1;
   font-size: 1rem;
-  background-color: #756cc5;
-  border: 3px solid #0f0e18;
+  background-color: var(--accent-color);
+  border: 3px solid var(--black-color);
   border-radius: 6px;
 }
 button:hover,
@@ -71,23 +79,23 @@ button:hover,
   height: 60.5vh;
   min-height: 600px;
   aspect-ratio: 1/1.5;
-  background-color: #a5a0cf;
-  border: 4px solid #38326f;
+  background-color: var(--primary-color);
+  border: 4px solid var(--secondary-color);
 }
 
 #display {
   justify-content: flex-end;
   padding: 1%;
   margin: 5% 5% 0 5%;
-  border: 4px solid #0f0e18;
-  color: white;
+  border: 4px solid var(--black-color);
+  color: var(--white-color);
   font-size: 3.5rem;
 }
 
 #buttonsTab {
   margin: 5%;
   height: 100%;
-  border: 4px solid #0f0e18;
+  border: 4px solid var(--black-color);
   gap: 6px;
 }
 
