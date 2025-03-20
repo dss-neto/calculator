@@ -1,13 +1,19 @@
 /* https://www.realtimecolors.com/?colors=edecf3-0f0e18-a5a0cf-38326f-756cc5&fonts=Armata-Armata*/
 
-/* hacks */
-
-:root {
-  --white-color: #edecf3;
-  --black-color: #0f0e18;
+:root.dark {
+  --text-color: #edecf3;
+  --background-color: #0f0e18;
   --primary-color: #a5a0cf;
   --secondary-color: #38326f;
   --accent-color: #756cc5;
+}
+
+:root.light {
+  --text-color: #0d0c13;
+  --background-color: #e9e9f2;
+  --primary-color: #35305f;
+  --secondary-color: #958ecc;
+  --accent-color: #433a92;
 }
 
 html {
@@ -48,7 +54,7 @@ body {
   justify-content: center;
   width: 97vw;
   height: 98vh;
-  background-color: var(--black-color);
+  background-color: var(--background-color);
 }
 button,
 #display {
@@ -60,8 +66,9 @@ button {
   flex-grow: 1;
   font-size: 1rem;
   background-color: var(--accent-color);
-  border: 3px solid var(--black-color);
+  border: 3px solid var(--background-color);
   border-radius: 6px;
+  color: var(--background-color);
 }
 button:hover,
 .dim {
@@ -87,15 +94,15 @@ button:hover,
   justify-content: flex-end;
   padding: 1%;
   margin: 5% 5% 0 5%;
-  border: 4px solid var(--black-color);
-  color: var(--white-color);
+  border: 4px solid var(--background-color);
+  color: var(--text-color);
   font-size: 3.5rem;
 }
 
 #buttonsTab {
   margin: 5%;
   height: 100%;
-  border: 4px solid var(--black-color);
+  border: 4px solid var(--background-color);
   gap: 6px;
 }
 
