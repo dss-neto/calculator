@@ -51,9 +51,11 @@ document.addEventListener("keydown", (logKey) => {
 
 document.addEventListener("keyup", (logKey) => unDimButton(logKey.key));
 
-numberDiv.addEventListener("click", (e) =>
-  workWithNumbers(e.target.id, e.target.tagName)
-);
+numberDiv.addEventListener("click", (e) => {
+  if (e.target.id in NUMBERS_LIST) {
+    workWithNumbers(e.target.id, e.target.tagName);
+  }
+});
 
 operatorsDiv.addEventListener("click", (e) => workWithOperators(e.target.id));
 
