@@ -203,7 +203,7 @@ function resetEverything() {
 }
 
 function operate(operator, num1, num2) {
-  let operationObj = {
+  const operationObj = {
     "+": () => Number((num1 + num2).toFixed(2)),
     "-": () => Number((num1 - num2).toFixed(2)),
     "/": function () {
